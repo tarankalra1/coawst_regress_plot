@@ -1,0 +1,71 @@
+Executing the Regression testing on NEMO
+Regression test is in a folder called coawst_regress_nemo
+--------------------------------------------------------------------
+INSTALLATION INSTRUCTIONS 
+Python 2.6 & Above
+Packages--> matplotlib for plotting and pdf generation
+
+--------------------------------------------------------------------
+RUNNING THE REGRESSION MODULE 
+
+1. Execute by typing "nohup python run_coawst_regress.py &" 
+
+2. The output would be is in "nohup.out" from the regression testing 
+
+3. The post processing from the plotting part is in 
+   "regress_pdf.pdf"
+
+This nohup command would let the script run all the time even after
+SSH logs out of nemo
+
+--------------------------------------------------------------------
+DESCRIPTION OF THE PYTHON FILES
+
+Inside the folder there is a sub-folder called coawst_regress_baseline
+it has python files which are 
+
+1. util.py     --> Fetches the source code from subversion client,
+                   edits jobscript, bashfile, copies output
+
+2. main.py     --> Calls each test case for running it on NEMO 
+                   from its own separate ".py" file  
+
+3. main_plot.py --> Calls each test case for plotting purposes  
+                   and generates a pdf document. All cases have a
+                   "_plot.py" file
+
+4. __init__.py --> It connects all the python files together 
+                   to form this package. Any changes made to any 
+                   python file name should be modified in this file
+--------------------------------------------------------------------
+
+NOTES 
+
+1. WRF_Config_file --> Important folder that copies files to COAWST
+distribution for WRF compilation
+
+2. All the other .py files are for each case. One can comment some
+cases or have all of them included by commenting/uncommenting them in 
+main.py. 
+
+3.The number of processors for each run can be changed inside each 
+project's file. 
+
+4. Check_queue() is the function in util.py that 
+checks if each case is queued after ten minutes. There is a sleep time
+of 10 secs in the same function prior to that. If a case immediately goes
+out of the queue then we dont have waiting for 10 mins. 
+
+5. Cases under regression test
+trench
+estuary_test2
+wetdry
+ducknc
+speclight
+sedbed_toy
+sed_floc_toy
+ripcurrent
+inlettest
+joetc
+sandy
+shoreface
