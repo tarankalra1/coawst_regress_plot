@@ -26,13 +26,12 @@ def plot_zeta(pdf,filepath_old,filepath_new,his_name,testcase,xmin,xmax,ymin,yma
     """this plots the zeta(water level) in 2D XY plane for
     the old and the new run and the difference between the 
     two zeta values"""  
-    print testcase
     x_rho,y_rho,ntime1,zeta_old=get_zeta(filepath_old)
     """ plot old zeta values """ 
     fig = plt.figure()
     ax = fig.add_subplot(3, 1, 1)
     ax = fig.gca()
-    plt.pcolormesh(x_rho,y_rho,zeta_old[ntime1-1,:,:],vmin=colormin,vmax=colormax)
+    plt.pcolormesh(x_rho,y_rho,zeta_old[ntime1-1,:,:],vmin=colormin,vmax=colormax,rasterized=True)
     ax.set_title('Old result: Water level for '+testcase.upper()+'case',fontsize=8)
     ax.set_xlim(xmin, xmax) 
     ax.set_ylim(ymin, ymax) 
@@ -46,7 +45,7 @@ def plot_zeta(pdf,filepath_old,filepath_new,his_name,testcase,xmin,xmax,ymin,yma
     """ plot new zeta values """ 
     ax = fig.add_subplot(3, 1, 2)
     ax = fig.gca()
-    plt.pcolormesh(x_rho,y_rho,zeta_old[ntime2-1,:,:],vmin=colormin,vmax=colormax)
+    plt.pcolormesh(x_rho,y_rho,zeta_old[ntime2-1,:,:],vmin=colormin,vmax=colormax,rasterized=True)
     ax.set_title('New result: Water level for '+testcase.upper()+'case',fontsize=8)
     ax.set_xlim(xmin, xmax) 
     ax.set_ylim(ymin, ymax) 
@@ -59,7 +58,7 @@ def plot_zeta(pdf,filepath_old,filepath_new,his_name,testcase,xmin,xmax,ymin,yma
     """ plot (new-old) zeta values """ 
     ax = fig.add_subplot(3, 1, 3)
     ax = fig.gca()
-    plt.pcolormesh(x_rho,y_rho,zeta_new[ntime1-1,:,:]-zeta_old[ntime2-1,:,:],vmin=colormin,vmax=colormax)
+    plt.pcolormesh(x_rho,y_rho,zeta_new[ntime1-1,:,:]-zeta_old[ntime2-1,:,:],vmin=colormin,vmax=colormax,rasterized=True)
     ax.set_title('Difference between two zeta values '+testcase.upper()+'case',fontsize=8)
     ax.set_xlim(xmin, xmax) 
     ax.set_ylim(ymin, ymax) 
@@ -75,9 +74,6 @@ def plot_zeta(pdf,filepath_old,filepath_new,his_name,testcase,xmin,xmax,ymin,yma
 def get_zeta(his_filepath):
     datafile=his_filepath
     ncfile=Dataset(datafile,'r')
-#    zeta = np.array(zeta, dtype=np.float128)
-#    zeta=np.ma.masked_where(zeta==np.nan,zeta)
-#    zeta=zeta[~numpy.isnan(zeta)]
     try: 
         x_rho=ncfile.variables['lon_rho'][:]
         y_rho=ncfile.variables['lat_rho'][:]
@@ -92,4 +88,3 @@ def get_zeta(his_filepath):
     ntime,nx,ny=zeta.shape
     ocean_time=ncfile.variables['ocean_time'][:]
     return x_rho,y_rho,ntime,zeta
-
